@@ -91,7 +91,7 @@ int main()
     ball_two.y = 400;
     ball_two.speed_x = 5;
     ball_two.speed_y = 0;
-    ball_two.color = WHITE;
+    ball_two.color = BLACK;
 
     ball_three.radius = 5;
     ball_three.x = 960;
@@ -163,7 +163,7 @@ int main()
         ball_three.Draw(); // ball right
         ball_four.Draw(); // ball down
 
-        DrawText(TextFormat("%f", GetTime()), 40, 40 , 30, WHITE);
+        DrawText(TextFormat("%.2f", GetTime()), 40, 40 , 30, WHITE);
         DrawText(TextFormat("%i", score), 40, 400 , 30, WHITE);
 
         DrawRectangle(630, 150, 20, 10, WHITE); //enemy 1
