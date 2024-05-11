@@ -1,5 +1,7 @@
 #include <raylib.h>
 
+int score = 0;
+
 class Ryan {
     public:
         float x,y;
@@ -50,6 +52,7 @@ class Ball {
         if (CheckCollisionCircleRec(Vector2{x, y}, radius, Rectangle{ryan->x, ryan->y, ryan->width, ryan->height})) {
             speed_x *= -1;
             speed_y *= -1;
+            score++;
         }
 
         if (x + radius >= GetScreenWidth() || x - radius <= 0){
@@ -161,6 +164,7 @@ int main()
         ball_four.Draw(); // ball down
 
         DrawText(TextFormat("%f", GetTime()), 40, 40 , 30, WHITE);
+        DrawText(TextFormat("%i", score), 40, 400 , 30, WHITE);
 
         DrawRectangle(630, 150, 20, 10, WHITE); //enemy 1
         DrawRectangle(270, 390, 10, 20, WHITE); //enemy 2
