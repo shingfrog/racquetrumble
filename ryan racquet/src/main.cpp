@@ -1,114 +1,65 @@
 #include <raylib.h>
+#include <iostream>
+#include "elements.hpp"
 
 int score = 0;
 
-class Ryan {
-    public:
-        float x,y;
-        float width, height;
+//int UpdateMultiplier() {
+//  static int speedMultiplier = 1;
+//  if (int(GetFrameTime()) % 10000 == 0) {
+//    speedMultiplier++;
+//  }
+//  return speedMultiplier;
+//}
 
-        void Draw() {
-            DrawRectangle(x, y, width, height, WHITE);
-        }
 
-        void Update() {
-            if(IsKeyDown(KEY_UP)){
-                y = 350;
-                x = 635;
-            }
-
-            if(IsKeyDown(KEY_LEFT)){
-                y = 395;
-                x = 590;
-            }
-
-            if(IsKeyDown(KEY_RIGHT)){
-                y = 395;
-                x = 690;
-            }
-
-            if(IsKeyDown(KEY_DOWN)){
-                y = 450;
-                x = 635;
-            }
-        }
-};
-
-class Ball {
-    public:
-        float x, y;
-        int speed_x, speed_y;
-        int radius;
-        Color color;
-
-        void Draw() {
-            DrawCircle(x, y, radius, color);
-        }
-
-        void Update(Ryan* ryan) {
-            x += speed_x;
-            y += speed_y;
-
-        if (CheckCollisionCircleRec(Vector2{x, y}, radius, Rectangle{ryan->x, ryan->y, ryan->width, ryan->height})) {
-            speed_x *= -1;
-            speed_y *= -1;
+void Ball::UpdateX(Ryan* ryan, int& score) 
+{
+        position.x += speed;
+        if (CheckCollisionCircleRec(Vector2{position.x, position.y}, radius, Rectangle{ryan->x, ryan->y, ryan->width, ryan->height})) {
+            speed *= -1;
             score++;
         }
+        if (position.x + radius >= GetScreenWidth() || position.x - radius <= 0){
+            speed *= -1;
+        }
+}
 
-        if (x + radius >= GetScreenWidth() || x - radius <= 0){
-            speed_x *= -1;
+void Ball::UpdateY(Ryan* ryan, int& score) 
+{
+        position.y += speed;
+        if (CheckCollisionCircleRec(Vector2{position.x, position.y}, radius, Rectangle{ryan->x, ryan->y, ryan->width, ryan->height})) {
+            speed *= -1;
+            score++;
         }
-        if (y + radius >= GetScreenHeight() || y - radius <= 0){
-            speed_y *= -1;
+        if (position.y + radius >= GetScreenHeight() || position.y - radius <= 0){
+            speed *= -1;
         }
-    }
-};
+}
 
 Ryan ryan;
-
-Ball ball_one;
-Ball ball_two;
-Ball ball_three;
-Ball ball_four;
+Ball ball_one = Ball({450, 225}, 5, 5, PINK);
+Ball ball_two = Ball({225, 450}, 5, 5, BLACK);
+Ball ball_three = Ball({675, 450}, 5, 5, SKYBLUE);
+Ball ball_four = Ball({450, 675}, 5, 5, MAROON);
 
 
 int main()
 {
-    const int screenWidth = 1280;
-    const int screenHeight = 800;
+    const int screenWidth = 900;
+    const int screenHeight = 900;
     InitWindow(screenWidth, screenHeight, "Racquet Rumble");
     SetTargetFPS(60);
 
-    ball_one.radius = 5;
-    ball_one.x = 640;
-    ball_one.y = 200;
-    ball_one.speed_x = 0;
-    ball_one.speed_y = 5;
-    ball_one.color = PINK;
+    //Texture2D ballTexture = LoadTexture("./media//tennis exp.png");
 
-    ball_two.radius = 5;
-    ball_two.x = 320;
-    ball_two.y = 400;
-    ball_two.speed_x = 5;
-    ball_two.speed_y = 0;
-    ball_two.color = BLACK;
+    // ball_one.ballTexture = ballTexture;
+    // ball_two.ballTexture = ballTexture;
+    // ball_three.ballTexture = ballTexture;
+    // ball_four.ballTexture = ballTexture;
 
-    ball_three.radius = 5;
-    ball_three.x = 960;
-    ball_three.y = 400;
-    ball_three.speed_x = 5;
-    ball_three.speed_y = 0;
-    ball_three.color = SKYBLUE;
-
-    ball_four.radius = 5;
-    ball_four.x = 640;
-    ball_four.y = 600;
-    ball_four.speed_x = 0;
-    ball_four.speed_y = 5;
-    ball_four.color = MAROON;
-
-    ryan.x = 635;
-    ryan.y = 395;
+    ryan.x = 450;
+    ryan.y = 450;
     ryan.width = 10;
     ryan.height = 10;
 
@@ -118,42 +69,27 @@ int main()
         BeginDrawing();
 
         ryan.Update();
-        ball_one.Update(&ryan);
-        ball_two.Update(&ryan);
-        ball_three.Update(&ryan);
-        ball_four.Update(&ryan);
+        ball_one.UpdateY(&ryan, score);
+        ball_two.UpdateX(&ryan, score);
+        ball_three.UpdateX(&ryan, score);
+        ball_four.UpdateY(&ryan, score);
+        //DrawTextureEx(ball, Vector2{200, 200}, 0, .02, WHITE);
 
-        if(CheckCollisionCircleRec(Vector2{ball_one.x, ball_one.y}, ball_one.radius, Rectangle{630, 150, 20, 10})){
-            ball_one.speed_y *= -1;
+        if(CheckCollisionCircleRec(Vector2{ball_one.position.x, ball_one.position.y}, ball_one.radius, Rectangle{440, 200, 20, 10})){
+            ball_one.speed *= -1;
         }
 
-        if(CheckCollisionCircleRec(Vector2{ball_two.x, ball_two.y}, ball_two.radius, Rectangle{270, 390, 10, 20})){
-            ball_two.speed_x *= -1;
+        if(CheckCollisionCircleRec(Vector2{ball_two.position.x, ball_two.position.y}, ball_two.radius, Rectangle{200, 440, 10, 20})){
+            ball_two.speed *= -1;
         }
 
-        if(CheckCollisionCircleRec(Vector2{ball_three.x, ball_three.y}, ball_three.radius, Rectangle{1010, 390, 10, 20})){
-            ball_three.speed_x *= -1;
+        if(CheckCollisionCircleRec(Vector2{ball_three.position.x, ball_three.position.y}, ball_three.radius, Rectangle{700, 440, 10, 20})){
+            ball_three.speed *= -1;
         }
 
-        if(CheckCollisionCircleRec(Vector2{ball_four.x, ball_four.y}, ball_four.radius, Rectangle{630, 650, 20, 10})){
-            ball_four.speed_y *= -1;
+        if(CheckCollisionCircleRec(Vector2{ball_four.position.x, ball_four.position.y}, ball_four.radius, Rectangle{440, 700, 20, 10})){
+            ball_four.speed *= -1;
         }
-
-        // if (CheckCollisionCircleRec(Vector2{ball_one.x, ball_one.y}, ball_one.radius, Rectangle{635, 350, 10, 10})) {
-        //     ball_one.speed_y *= -1;
-        // } 
-
-        // if(CheckCollisionCircleRec(Vector2{ball_two.x, ball_two.y}, ball_two.radius, Rectangle{590, 395, 10, 10})){
-        //     ball_two.speed_x *= -1;
-        // }
-
-        // if(CheckCollisionCircleRec(Vector2{ball_three.x, ball_three.y}, ball_three.radius, Rectangle{690, 395, 10, 10})){
-        //     ball_three.speed_x *= -1;
-        // }
-
-        // if(CheckCollisionCircleRec(Vector2{ball_four.x, ball_four.y}, ball_four.radius, Rectangle{635, 450, 10, 10})){
-        //     ball_four.speed_y *= -1;
-        // }
 
         ClearBackground(LIGHTGRAY);
         
@@ -163,13 +99,13 @@ int main()
         ball_three.Draw(); // ball right
         ball_four.Draw(); // ball down
 
-        DrawText(TextFormat("%.2f", GetTime()), 40, 40 , 30, WHITE);
-        DrawText(TextFormat("%i", score), 40, 400 , 30, WHITE);
+        DrawText(TextFormat("%.2f", GetFrameTime()), 40, 40 , 30, WHITE);
+        DrawText(TextFormat("%.i", score), 450, 100, 30, WHITE);
 
-        DrawRectangle(630, 150, 20, 10, WHITE); //enemy 1
-        DrawRectangle(270, 390, 10, 20, WHITE); //enemy 2
-        DrawRectangle(1010, 390, 10, 20, WHITE); //enemy 3
-        DrawRectangle(630, 650, 20, 10, WHITE); //enemy 4
+        DrawRectangle(440, 200, 20, 10, WHITE); //enemy 1
+        DrawRectangle(200, 440, 10, 20, WHITE); //enemy 2
+        DrawRectangle(700, 440, 10, 20, WHITE); //enemy 3
+        DrawRectangle(440, 700, 20, 10, WHITE); //enemy 4
 
         EndDrawing();
     }
