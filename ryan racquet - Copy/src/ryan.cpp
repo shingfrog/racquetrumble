@@ -3,6 +3,7 @@
 Ryan::Ryan(Vector2 position)
 {
     this -> position = position;
+    this -> texture = ryanImageUp;
 }
 
 Ryan::~Ryan()
@@ -12,25 +13,62 @@ Ryan::~Ryan()
 
 void Ryan::Draw()
 {
-    DrawRectangle(position.x, position.y, 10, 10, WHITE);
+    DrawTextureV(texture, position, WHITE);
 }
 
 void Ryan::moveRyan()
 {
     if(IsKeyDown(KEY_UP)){
-        position.y = 346;
-        position.x = 445;     
+        position.y = 360;
+        position.x = 408; 
+        texture = ryanImageUp;
     }
     if(IsKeyDown(KEY_LEFT)){
-        position.y = 445;
-        position.x = 341;
+        position.y = 439;
+        position.x = 354;
+        texture = ryanImageLeft;    
     }
     if(IsKeyDown(KEY_RIGHT)){
-        position.y = 445;
-        position.x = 547;
+        position.y = 410;
+        position.x = 518;
+        texture = ryanImageRight;   
     }
     if(IsKeyDown(KEY_DOWN)){
-        position.y = 542;
-        position.x = 445;
+        position.y = 512;
+        position.x = 440;
+        texture = ryanImageDown; 
     }
+}
+
+float Ryan::GetWidth()
+{
+    return (float)GetTexture().width;
+}
+
+float Ryan::GetHeight()
+{
+    return (float)GetTexture().height;
+
+}
+
+void Ryan::Reset()
+{
+    position = {455, 455};
+    texture = ryanImageUp;
+    health = 3;
+}
+
+Texture2D Ryan::GetTexture()
+{
+    if (position.x == 408){
+        return ryanImageUp;
+    } else if (position.x == 354){
+        return ryanImageLeft;
+    } else if (position.x == 518){
+        return ryanImageRight;
+    } else if (position.x == 440){
+        return ryanImageDown;
+    }
+
+    return ryanImageUp;
 }
