@@ -7,17 +7,21 @@
 
 class Game
 {
-    public:
+public:
     Game();
     ~Game();
     
     void Draw();
     void Update();
     void HandleInput();
+    void Reset();
+    void GameOver();
 
-    private:
-    Ryan ryan = Ryan({445,445});
+    bool run;
+
+private:
+    Ryan ryan = Ryan({455,455});
     Enemy enemy;
-
+    int score = 0;
     void DeleteInactiveBalls();
 };
