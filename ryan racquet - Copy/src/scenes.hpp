@@ -14,15 +14,14 @@ class Scenes
     public:
     void updateLogoScreen(int framesCounter, GameScreen* currentScreen);
     void updateTitleScreen(GameScreen* currentScreen, Button& playButton);
-    void updateGameplayScreen(GameScreen* currentScreen);
-    void updateEndingScreen(GameScreen* currentScreen);
+    void updateGameplayScreen(GameScreen* currentScreen, Button& restartButton);
+    void updateEndingScreen(GameScreen* currentScreen, Button& restartButton);
     void drawCurrentScreen(GameScreen currentScreen);
 
     void drawLogoScreen();
     void drawTitleScreen();
     void drawGameplayScreen();
     void drawEndingScreen();
-    //void setBackgroundTexture(Texture2D backgroundTexture);
 
     private:
     Game game;
