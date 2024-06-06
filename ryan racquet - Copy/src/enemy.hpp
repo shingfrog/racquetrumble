@@ -8,8 +8,9 @@ class Enemy
 {
     public:
     Enemy();
-    //Rectangle getEnemyRec(Vector2 position, float width, float height);
     void SpawnBall();
+    int UpdateSpeed();
+    void Reset();
 
     std::vector<Ball> balls;
 
