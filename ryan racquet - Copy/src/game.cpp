@@ -1,5 +1,6 @@
 #include "game.hpp"
 #include <vector>
+#include <iostream>
 
 Game::Game()
 {
@@ -22,7 +23,18 @@ void Game::Draw()
     DrawText(TextFormat("Score: %i", score), 10, 10, 30, WHITE);
     DrawText(TextFormat("Health: %i", ryan.health), 10, 50, 30, WHITE);
 
+    DrawText("Press WASD or Arrow Keys to move Ryan", 10, 830, 15, WHITE);
+    DrawText("Press TAB to pause the game", 10, 860, 20, WHITE);
+
+
+
     ryan.Draw();
+
+    if (ryan.healthDecreased) {
+        DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(RED, 0.6f));
+        ryan.healthDecreased = false; 
+        PlaySound(hit);
+    }
 
 }
 
@@ -34,11 +46,19 @@ void Game::Update()
             
         }
 
+        SetSoundVolume(ballSound, 0.5f);
         if(enemy.balls.empty() || !enemy.balls.back().active) {
             enemy.SpawnBall();
+            PlaySound(ballSound);
             if(score >= 20){
+                PlaySound(ballSound);
                 enemy.SpawnBall();
             }
+        }
+
+        if(score > lastScore && score % 25 == 0){
+            ryan.health++;
+            lastScore = score;
         }
 
         if(ryan.health <= 0){
@@ -67,6 +87,14 @@ void Game::Reset()
 void Game::GameOver()
 {
     run = false;
+}
+
+int Game::GetFinalScore()
+{
+    if(ryan.health == 0){
+        return score;
+    }
+    return score;
 }
 
 void Game::DeleteInactiveBalls()

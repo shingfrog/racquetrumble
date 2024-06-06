@@ -33,8 +33,8 @@ void Scenes::drawGameplayScreen()
     if(Paused){
         DrawTexture(court, 0, 0, WHITE);
         game.Draw();
-        DrawRectangle(0, 0, 900, 900, CLITERAL(Color){ 255, 255, 255, 60 });
-        DrawText("Paused", 400, 400, 40, BLACK);
+        DrawRectangle(0, 0, 900, 900, CLITERAL(Color){ 255, 255, 255, 80 });
+        DrawTextCentered("PAUSED", 40, 400, BLACK);
         restartButton.drawButton(); 
     }
 }
@@ -42,11 +42,19 @@ void Scenes::drawGameplayScreen()
 void Scenes::drawEndingScreen()
 {
     DrawTexture(background, 0, 0, WHITE);
-    Button restartButton = Button({ 350, 500, 200, 50 }, RED, BLACK, "Play Again");
+    Button restartButton = Button({ 350, 500, 200, 50 }, RED, BLACK, "Play Again");    
     restartButton.drawButton(); 
 
-    DrawText("YOU DIED", 400, 400, 40, BLACK);
+    DrawTextCentered("YOU DIED", 60, 400, BLACK);
+    DrawTextCentered(TextFormat("Final Score: %i", game.GetFinalScore()), 50, 300, BLACK);
 
+}
+
+void Scenes::DrawTextCentered(const char *text, int fontSize, float posY, Color color)
+{
+    int textWidth = MeasureText(text, fontSize);
+    int x = (GetScreenWidth() - textWidth) / 2;
+    DrawText(text, x, posY, fontSize, color);
 }
 
 void Scenes::updateLogoScreen(int framesCounter, GameScreen* currentScreen)
@@ -60,6 +68,7 @@ void Scenes::updateLogoScreen(int framesCounter, GameScreen* currentScreen)
 void Scenes::updateTitleScreen(GameScreen* currentScreen, Button& playButton) 
 {
     if (playButton.isPressed()) {
+        PlaySound(click);
         *currentScreen = GAMEPLAY;
     }
 }
@@ -72,6 +81,7 @@ void Scenes::updateGameplayScreen(GameScreen* currentScreen, Button& restartButt
 
     if (restartButton.isPressed()) {
         Paused = !Paused;
+        PlaySound(click);
         game.Reset();
     }   
 
@@ -85,8 +95,9 @@ void Scenes::updateEndingScreen(GameScreen* currentScreen, Button& restartButton
 {
     if (restartButton.isPressed()) {
         *currentScreen = GAMEPLAY;
+        PlaySound(click);
         game.Reset();
-    }     
+    } 
 }
 
 void Scenes::drawCurrentScreen(GameScreen currentScreen) {

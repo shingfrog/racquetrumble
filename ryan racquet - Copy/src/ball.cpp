@@ -1,4 +1,6 @@
 #include "ball.hpp"
+#include <cmath>
+
 
 Ball::Ball(Vector2 position, Texture2D ballImage, double speed)
 {
@@ -32,13 +34,22 @@ void Ball::Update(Ryan* ryan)
             position.x += speed;
     }
 
+    float distance = sqrt(pow(position.x - ryan->position.x, 2) + pow(position.y - ryan->position.y, 2));
+    float soundThreshold = 50.0f; 
+
+    if (distance <= soundThreshold) {
+        PlaySound(ballHit);
+    }
+
     if (CheckCollisionRecs(Rectangle{position.x, position.y, 12, 12}, Rectangle{ryan->position.x, ryan->position.y, (float)ryan->GetWidth(), (float)ryan->GetHeight()})){
         speed *= -1;
     }
 
     if (position.x >= 433 && position.x <= 450 && position.y >= 433 && position.y <= 450) {
-        active = false; 
         ryan->health--;
+        ryan->healthDecreased = true; 
+
+        active = false; 
     }
 
 
@@ -48,6 +59,11 @@ void Ball::Update(Ryan* ryan)
         }
     }
 }
+
+// void Ball::Reset()
+// {
+//     if(position)
+// }
 
 Texture2D Ball::GetTexture()
 {

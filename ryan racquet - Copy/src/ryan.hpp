@@ -17,7 +17,8 @@ class Ryan
     Texture2D texture;
     
     int health = 3;
-    
+    bool healthDecreased;
+        
     private:
     Texture2D ryanImageUp = LoadTexture("media/faceUp.png");
     Texture2D ryanImageLeft = LoadTexture("media/faceLeft.png");

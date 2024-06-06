@@ -4,6 +4,7 @@ Ryan::Ryan(Vector2 position)
 {
     this -> position = position;
     this -> texture = ryanImageUp;
+    healthDecreased = false;
 }
 
 Ryan::~Ryan()
@@ -18,22 +19,22 @@ void Ryan::Draw()
 
 void Ryan::moveRyan()
 {
-    if(IsKeyDown(KEY_UP)){
+    if(IsKeyDown(KEY_UP) || IsKeyDown(KEY_W)){
         position.y = 360;
         position.x = 408; 
         texture = ryanImageUp;
     }
-    if(IsKeyDown(KEY_LEFT)){
+    if(IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A)){
         position.y = 439;
         position.x = 354;
         texture = ryanImageLeft;    
     }
-    if(IsKeyDown(KEY_RIGHT)){
+    if(IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D)){
         position.y = 410;
         position.x = 518;
         texture = ryanImageRight;   
     }
-    if(IsKeyDown(KEY_DOWN)){
+    if(IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S)){
         position.y = 512;
         position.x = 440;
         texture = ryanImageDown; 

@@ -12,6 +12,7 @@ class Ball
     ~Ball();
     void Draw();
     void Update(Ryan* ryan);
+    //void Reset();
 
     Texture2D GetTexture();
     Vector2 getBallPosition();
@@ -23,4 +24,5 @@ class Ball
     Texture2D ballImage;
     Vector2 position;
     double speed;
+    Sound ballHit = LoadSound("sound/tennis-ball-hit-01.mp3");
 };
