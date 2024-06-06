@@ -16,6 +16,7 @@ public:
     void HandleInput();
     void Reset();
     void GameOver();
+    int GetHighScore();
     int GetFinalScore();
 
     bool run;
@@ -24,6 +25,7 @@ private:
     Enemy enemy;
     int score = 0;
     int lastScore;
+    int highScore = 0;
     void DeleteInactiveBalls();
     Sound ballSound = LoadSound("sound/tennis-ball-hit-01.mp3");
     Sound hit = LoadSound("sound/8-Bit Hit Sound Effect.wav");

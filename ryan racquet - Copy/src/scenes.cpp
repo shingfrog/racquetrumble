@@ -22,7 +22,7 @@ void Scenes::drawTitleScreen()
 void Scenes::drawInstructionScreen()
 {
     DrawTexture(instruct, 0, 0, WHITE);
-    Button nextButton = Button({ 660, 810, 200, 50 }, GREEN, BLACK, "Continue");
+    Button nextButton = Button({ 660, 810, 200, 50 }, RED, BLACK, "Continue");
     nextButton.drawButton(); 
 }
 
@@ -52,8 +52,9 @@ void Scenes::drawEndingScreen()
     Button restartButton = Button({ 350, 500, 200, 50 }, RED, BLACK, "Play Again");    
     restartButton.drawButton(); 
 
-    DrawTextCentered("YOU DIED", 60, 400, BLACK);
-    DrawTextCentered(TextFormat("Final Score: %i", game.GetFinalScore()), 50, 300, BLACK);
+    DrawTextCentered("YOU DIED", 60, 300, BLACK);
+    DrawTextCentered(TextFormat("Final Score: %i", game.GetFinalScore()), 50, 390, BLACK);
+    DrawTextCentered(TextFormat("Highest Score: %i", game.GetHighScore()), 30, 450, BLACK);
 
 }
 

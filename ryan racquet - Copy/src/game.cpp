@@ -89,6 +89,16 @@ void Game::GameOver()
     run = false;
 }
 
+int Game::GetHighScore()
+{
+    if(ryan.health == 0){
+        if(score > highScore){
+            highScore = score;
+        }
+    }
+    return highScore;
+}
+
 int Game::GetFinalScore()
 {
     if(ryan.health == 0){
