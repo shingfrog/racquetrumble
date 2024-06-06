@@ -19,6 +19,13 @@ void Scenes::drawTitleScreen()
     
 }
 
+void Scenes::drawInstructionScreen()
+{
+    DrawTexture(instruct, 0, 0, WHITE);
+    Button nextButton = Button({ 660, 810, 200, 50 }, GREEN, BLACK, "Continue");
+    nextButton.drawButton(); 
+}
+
 void Scenes::drawGameplayScreen()
 {
     if(!Paused){
@@ -69,6 +76,14 @@ void Scenes::updateTitleScreen(GameScreen* currentScreen, Button& playButton)
 {
     if (playButton.isPressed()) {
         PlaySound(click);
+        *currentScreen = INSTRUCTION;
+    }
+}
+
+void Scenes::updateInstructionScreen(GameScreen *currentScreen, Button& nextButton)
+{
+    if (nextButton.isPressed()) {
+        PlaySound(click);
         *currentScreen = GAMEPLAY;
     }
 }
@@ -107,6 +122,9 @@ void Scenes::drawCurrentScreen(GameScreen currentScreen) {
       break;
     case GameScreen::TITLE:
       drawTitleScreen();
+      break;
+    case GameScreen::INSTRUCTION:
+      drawInstructionScreen();
       break;
     case GameScreen::GAMEPLAY:
       drawGameplayScreen();

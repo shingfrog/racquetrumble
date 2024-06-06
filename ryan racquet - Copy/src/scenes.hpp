@@ -6,7 +6,7 @@
 
 enum GameScreen 
 { 
-    LOGO = 0, TITLE, GAMEPLAY, ENDING 
+    LOGO = 0, TITLE, GAMEPLAY, ENDING, INSTRUCTION 
 };
 
 class Scenes
@@ -14,12 +14,14 @@ class Scenes
     public:
     void updateLogoScreen(int framesCounter, GameScreen* currentScreen);
     void updateTitleScreen(GameScreen* currentScreen, Button& playButton);
+    void updateInstructionScreen(GameScreen* currentScreen, Button& nextButton);
     void updateGameplayScreen(GameScreen* currentScreen, Button& restartButton);
     void updateEndingScreen(GameScreen* currentScreen, Button& restartButton);
     void drawCurrentScreen(GameScreen currentScreen);
 
     void drawLogoScreen();
     void drawTitleScreen();
+    void drawInstructionScreen();
     void drawGameplayScreen();
     void drawEndingScreen();
 
@@ -36,6 +38,7 @@ class Scenes
     Sound click = LoadSound("sound/click .wav");
     Texture2D background= LoadTexture("media/bg.png");
     Texture2D court = LoadTexture("media/courtsFinal.png");
+    Texture2D instruct = LoadTexture("media/instruct.png");
 
     Texture2D logo = LoadTexture("media/logo atlas.png");
     Rectangle logoSource {1634.25f, 0.f, (float)logo.width / 4, (float)logo.height};

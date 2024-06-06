@@ -11,7 +11,8 @@ int main() {
     GameScreen currentScreen = LOGO;
     Scenes scenes;
 
-    Button playButton = Button({ 350, 694, 200, 50 }, GREEN, BLACK, "Play");
+    Button playButton = Button({ 350, 694, 200, 50 }, RED, BLACK, "Play");
+    Button nextButton = Button({ 660, 810, 200, 50 }, RED, BLACK, "Continue");
     Button restartButton = Button({ 350, 500, 200, 50 }, RED, BLACK, "Restart");
 
     Music bgm = LoadMusicStream("sound/title or instruction screen.mp3");
@@ -30,6 +31,10 @@ int main() {
         case TITLE:
             UpdateMusicStream(bgm);
             scenes.updateTitleScreen(&currentScreen, playButton);
+            break;
+        case INSTRUCTION:
+            UpdateMusicStream(bgm);
+            scenes.updateInstructionScreen(&currentScreen, nextButton);
             break;
         case GAMEPLAY:
             UpdateMusicStream(gameplayMusic);
